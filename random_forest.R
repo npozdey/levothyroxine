@@ -4,15 +4,14 @@ library(caret)
 library(randomForest)
 library(caTools)
 
-rm(list=ls())
-setwd("E:/OneDrive - The University of Colorado Denver/levothyroxine_dose_project/")
+# rm(list=ls())
+# setwd("E:/OneDrive - The University of Colorado Denver/levothyroxine_dose_project/")
 
 # Prescribable LT4 doses
 LT4doses=c(50, 75, 88, 100, 112, 125, 137, 150, 175, 200, 224, 250, 275, 300)
 
-
-train_polished <- read.csv("./manuscript/data/test_train_split/training_split_deid_May_8_2022.csv", stringsAsFactors = F)
-test_polished <- read.csv("./manuscript/data/test_train_split/test_split_deid_May_8_2022.csv", stringsAsFactors = F)
+train_polished <- read.csv("./manuscript/data/training_split.csv", stringsAsFactors = F)
+test_polished <- read.csv("./manuscript/data/test_split.csv", stringsAsFactors = F)
 
 # centering height for interaction term
 train_polished$Heightunscaled <- train_polished$Height
@@ -39,11 +38,11 @@ train_polished <- transform(train_polished,
                             logTSH = as.numeric(logTSH),
                             Weight=as.numeric(Weight),
                             Height=as.numeric(Height),
-                            Gender=as.factor(Gender),
+                            Sex=as.factor(Sex),
                             Age=as.numeric(Age),
                             Calcium=as.factor(Calcium)
                             )
-traindata <- train_polished[, c("rounded_LT4dose", "logTSH", "Weight", "Height", "Gender", "Age", "Calcium")]
+traindata <- train_polished[, c("rounded_LT4dose", "logTSH", "Weight", "Height", "Sex", "Age", "Calcium")]
 traindata$rounded_LT4dose <- droplevels(traindata$rounded_LT4dose)
 levels(traindata$rounded_LT4dose)
 
@@ -52,14 +51,14 @@ test_polished <- transform(test_polished,
                            logTSH = as.numeric(logTSH),
                            Weight=as.numeric(Weight),
                            Height=as.numeric(Height),
-                           Gender=as.factor(Gender),
+                           Sex=as.factor(Sex),
                            Age=as.numeric(Age),
                            Calcium=as.factor(Calcium)
 )
-testdata <- test_polished[, c("rounded_LT4dose", "logTSH", "Weight", "Height", "Gender", "Age", "Calcium")]
+testdata <- test_polished[, c("rounded_LT4dose", "logTSH", "Weight", "Height", "Sex", "Age", "Calcium")]
 testdata$rounded_LT4dose
 
-formula <- as.formula("rounded_LT4dose ~ logTSH + Weight + Height + Height:Gender + Gender + Age + Calcium")
+formula <- as.formula("rounded_LT4dose ~ logTSH + Weight + Height + Height:Sex + Sex + Age + Calcium")
 
 
 

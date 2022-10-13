@@ -4,16 +4,14 @@ library(lmtest)
 library(psych)
 library(car)
 
-rm(list=ls())
-setwd("E:/OneDrive - The University of Colorado Denver/levothyroxine_dose_project/")
+#rm(list=ls())
+#setwd("E:/OneDrive - The University of Colorado Denver/levothyroxine_dose_project/")
 
 # Prescribable LT4 doses
 LT4doses=c(50, 75, 88, 100, 112, 125, 137, 150, 175, 200, 224, 250, 275, 300)
 
-
-
-train_polished <- read.csv("./manuscript/data/test_train_split/training_split_deid_May_8_2022.csv", stringsAsFactors = F)
-test_polished <- read.csv("./manuscript/data/test_train_split/test_split_deid_May_8_2022.csv", stringsAsFactors = F)
+train_polished <- read.csv("./manuscript/data/training_split.csv", stringsAsFactors = F)
+test_polished <- read.csv("./manuscript/data/test_split.csv", stringsAsFactors = F)
 
 # centering height for interaction term
 train_polished$Height <- scale(train_polished$Height, center = TRUE, scale = FALSE)
@@ -23,7 +21,7 @@ test_polished$Height <- scale(test_polished$Height, center = TRUE, scale = FALSE
 # Fitting parsimonious model
 ################################
 
-formula <- "LT4 ~ logTSH + Weight + Height:Gender + Gender + Age + Calcium"
+formula <- "LT4 ~ logTSH + Weight + Height:Sex + Sex + Age + Calcium"
 
 wls_fit <- rlm(as.formula(formula), data = train_polished, psi = psi.bisquare)
 summary(wls_fit) 

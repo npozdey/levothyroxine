@@ -6,15 +6,15 @@ library(lmtest)
 library(psych)
 library(car)
 
-rm(list=ls())
-setwd("E:/OneDrive - The University of Colorado Denver/levothyroxine_dose_project/")
+#rm(list=ls())
+#setwd("E:/OneDrive - The University of Colorado Denver/levothyroxine_dose_project/")
 
 # Prescribable LT4 doses
 LT4doses=c(50, 75, 88, 100, 112, 125, 137, 150, 175, 200, 224, 250, 275, 300)
 
 
-train_polished <- read.csv("./manuscript/data/test_train_split/training_split_deid_May_8_2022.csv", stringsAsFactors = F)
-test_polished <- read.csv("./manuscript/data/test_train_split/test_split_deid_May_8_2022.csv", stringsAsFactors = F)
+train_polished <- read.csv("./manuscript/data/training_split.csv", stringsAsFactors = F)
+test_polished <- read.csv("./manuscript/data/test_split.csv", stringsAsFactors = F)
 
 # centering height for interaction term
 train_polished$Heightunscaled <- train_polished$Height
@@ -26,7 +26,7 @@ test_polished$Height <- scale(test_polished$Height, center = TRUE, scale = FALSE
 # EXPLORING BIVARIATE STATISTICS
 #################################
 
-bivariate <- train_polished[, c("LT4", "logTSH", "Weight", "Height", "Gender", "Age", "Calcium"), ]
+bivariate <- train_polished[, c("LT4", "logTSH", "Weight", "Height", "Sex", "Age", "Calcium"), ]
 
 pdf("./manuscript/Results/LR/bivariate_analysis.pdf")
 pairs.panels(bivariate, col="red", lm=TRUE)
@@ -36,7 +36,7 @@ dev.off()
 # Fitting parsimonious model on training data
 ################################################
 
-formula <- "LT4 ~ logTSH + Weight + Height + Height:Gender + Gender + Age + Calcium"
+formula <- "LT4 ~ logTSH + Weight + Height + Height:Sex + Sex + Age + Calcium"
 
 # initial fit (unweighted)
 fit <- lm(formula, data = train_polished)
