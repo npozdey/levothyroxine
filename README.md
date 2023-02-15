@@ -1,7 +1,7 @@
 # levothyroxine dose calculator
 
 
-# Source data and R an Python code for the submission to JAMA Surgery "Computer-assisted Levothyroxine Dose Selection for the Treatment of Postoperative Hypothyroidism". 
+# Source data and R an Python code for the submission to Thyroid "Computer-assisted Levothyroxine Dose Selection for the Treatment of Postoperative Hypothyroidism". 
 
 Martin Barrio, MD1, Christopher D. Raeburn, MD1, Robert McIntyre, Jr., MD1, Maria Albuja Cruz, MD1, Bryan R. Haugen, MD2, Nikita Pozdeyev, MD2,3  
   
